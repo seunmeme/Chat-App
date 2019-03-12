@@ -4,7 +4,11 @@
   "description": "A chat app built with socket.io",
   "main": "app.js",
   "scripts": {
+    "start": "babel-node ./server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+   "node": "11.6.0"
   },
   "repository": {
     "type": "git",
@@ -20,5 +24,19 @@
   "bugs": {
     "url": "https://github.com/seunmeme/Chat-App/issues"
   },
-  "homepage": "https://github.com/seunmeme/Chat-App#readme"
+  "homepage": "https://github.com/seunmeme/Chat-App#readme",
+  "devDependencies": {
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
+    "nodemon": "^1.18.10"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
+  }
 }
