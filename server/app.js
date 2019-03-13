@@ -3,6 +3,7 @@ import http from 'http';
 import express from 'express';
 import socketIO from 'socket.io';
 
+import { generateMessage } from './utils/message';
 const publicPath = path.join(__dirname, './../public' );
 const app = express();
 const server = http.createServer(app);
@@ -17,24 +18,12 @@ io.on('connection', (socket) => {
 
     socket.on('createMessage', (message) => {
         console.log('Message created', message);
-        socket.broadcast.emit('newMessage', {
-            from: message.from,
-            text: message.text,
-            createdAt: new Date().getTime()
-        });
+        socket.broadcast.emit('newMessage', generateMessage(message.from, message.text));
     });
 
-    socket.emit('newMessage',  {
-        from: 'Admin',
-        message: 'Welcome onboard!',
-        createdAt: new Date().getTime()
-    })
+    socket.emit('newMessage',  generateMessage('Admin', 'Welcome to our chat app'))
 
-    socket.broadcast.emit('newMessage', {
-        from: 'Admin',
-        text: 'New user joined.',
-        createdAt: new Date().getTime()
-    })
+    socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined.'))
    
 
     socket.on('disconnect', () => {
