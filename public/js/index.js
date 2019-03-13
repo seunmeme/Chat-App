@@ -10,7 +10,6 @@ socket.on('connect', () => {
 });
 
 
-
 socket.on('newMessage', (message) => {
     console.log('Message received', message);
 
