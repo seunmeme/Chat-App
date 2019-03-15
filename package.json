@@ -33,6 +33,7 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
+    "istanbul": "^0.4.5",
     "mocha": "^6.0.2",
     "nodemon": "^1.18.10"
   },
