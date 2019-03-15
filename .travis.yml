@@ -4,7 +4,7 @@ node_js:
 addons:
     code_climate:
         repo_token: <supersecrettoken>
-script: npm test
+script: mocha server/**/*.js --require babel-core/register --exit
 before_script:
   - npm install codeclimate-test-reporter istanbul -g
 after_script:
