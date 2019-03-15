@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { generateMessage } from '../utils/message';
+import { generateMessage, generateLocationMessage } from '../utils/message';
 
 describe('generateMessage', () => {
     it('should generate the correct message object', () => {
@@ -13,3 +13,16 @@ describe('generateMessage', () => {
         
     });
 });
+
+describe('generateLocationMessage', () => {
+    it('should generate correct location object', () => {
+      const from = 'Sam';
+      const latitude = 15;
+      const longitude = 19;
+      const url = 'https://www.google.com/maps?q=15,19';
+      const message = generateLocationMessage(from, latitude, longitude);
+  
+      expect(message.createdAt).to.exist;
+      expect(message).to.include({from, url});
+    });
+  });
