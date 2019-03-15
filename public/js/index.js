@@ -1,6 +1,7 @@
 const socket = io();
 
-const locationButton = $('#send-location')
+const messageTextbox = $('[name=message]');
+const locationButton = $('#send-location');
 
 socket.on('connect', () => {
     console.log('Connected to server');
@@ -33,9 +34,9 @@ socket.on('connect', () => {
   
     socket.emit('createMessage', {
       from: 'User',
-      text: $('[name=message]').val()
+      text: messageTextbox.val()
     }, function () {
-  
+      messageTextbox.val('')
     });
   });
 
@@ -44,12 +45,16 @@ socket.on('connect', () => {
           return alert('Your browser does not support geolocation')
       }
 
+      locationButton.attr('disabled', 'disabled').text('Sending location...');
+
       navigator.geolocation.getCurrentPosition((position) => {
-            socket.emit('createLocationMessage', {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-            })
+        locationButton.removeAttr('disabled').text('Send location');
+        socket.emit('createLocationMessage', {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        })
       }, () => {
-          alert('Unable to fetch your current location!')
+        locationButton.removeAttr('disabled').text('Send location');
+        alert('Unable to fetch your current location!')
       })
   });
