@@ -4,7 +4,7 @@ node_js:
 addons:
     code_climate:
         repo_token: <supersecrettoken>
-script: istanbul cover node_modules/mocha/bin/_mocha -- -R spec
+script: npm test
 before_script:
   - npm install codeclimate-test-reporter istanbul -g
 after_script:
