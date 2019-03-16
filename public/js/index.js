@@ -1,5 +1,20 @@
 const socket = io();
 
+const scrollToButtom = () => {
+  let messages = $('#messages'),
+      newMessage = messages.children('li:last-child');
+
+  let clientHeight = messages.prop('clientHeight'),
+      scrollTop = messages.prop('scrollTop'),
+      scrollHeight = messages.prop('scrollHeight'),
+      newMessageHeight = newMessage.innerHeight(),
+      lastMessageHeight = newMessage.prev().innerHeight();
+
+  if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+      messages.scrollTop(scrollHeight);
+  }
+};
+
 const messageTextbox = $('[name=message]');
 const locationButton = $('#send-location');
 
@@ -11,35 +26,30 @@ socket.on('connect', () => {
     console.log('Disconnected from server');
   });
   
-  socket.on('newMessage', (message) => {
-    const formattedTime = moment(message.createdAt).format('h:mm a');
-    const template = $('#message-template').html();
-    const html = Mustache.render(template, {
+  socket.on('newMessage', function (message) {
+    let formattedTime = moment(message.createdAt).format('h:mm a');
+    let template = $('#message-template').html();
+    let html = Mustache.render(template, {
       text: message.text,
       from: message.from,
       createdAt: formattedTime
     });
 
     $('#messages').append(html);
+    scrollToButtom();
   });
 
-  socket.on('newLocationMessage', (message) => {
-    const formattedTime = moment(message.createdAt).format('h:mm a');
-    const template = $('#location-message-template').html();
-    const html = Mustache.render(template, {
+  socket.on('newLocationMessage', function (message) {
+    let formattedTime = moment(message.createdAt).format('h:mm a');
+    let template = $('#location-message-template').html();
+    let html = Mustache.render(template, {
       from: message.from,
       url: message.url,
       createdAt: formattedTime
     });
 
     $('#messages').append(html);
-    // let li = $('<li></li>');
-    // let a = $('<a target="_blank">My current location</a>');
-  
-    // li.text(`${message.from} ${formattedTime}: `);
-    // a.attr('href', message.url);
-    // li.append(a);
-    // $('#messages').append(li);
+    scrollToButtom();
   });
   
   $('#message-form').on('submit', function (e) {
