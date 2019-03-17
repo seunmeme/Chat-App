@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import { generateMessage, generateLocationMessage } from '../utils/message';
+import { isRealString } from '../utils/validation';
 
 describe('generateMessage', () => {
     it('should generate the correct message object', () => {
@@ -25,4 +26,23 @@ describe('generateLocationMessage', () => {
       expect(message.createdAt).to.exist;
       expect(message).to.include({from, url});
     });
+  });
+
+  describe('isRealString', () => {
+    it('should reject non-string values', () => {
+      let res = isRealString(98);
+
+      expect(res).to.be.false;
+    });
+    it('should reject string with only spaces', () => {
+      let res = isRealString('    ');
+
+      expect(res).to.be.false;
+    });
+    it('should allow sting with non-space characters', () => {
+      let res = isRealString('  Sol  ');
+
+      expect(res).to.be.true;
+    });
+
   });
