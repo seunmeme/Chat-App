@@ -4,11 +4,10 @@
 A chat app built using socket.io
 
 ## To run the app locally
-To run the app locally:
-```run 'git clone git@github.com:seunmeme/Chat-App.git' on your terminal```
-```cd into Chat-App```
-```run 'npm install'```
-```And finally 'npm start'```
+```run 'git clone git@github.com:seunmeme/Chat-App.git' on your terminal,```  
+```cd into Chat-App,```  
+```run 'npm install',```  
+```And finally 'npm start',```  
 ```You can then visit 'localhost:3000' on your prefered web browser.```
 
 ## To run the app online
