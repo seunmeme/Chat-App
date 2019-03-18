@@ -5,13 +5,13 @@ import socketIO from 'socket.io';
 
 import { generateMessage, generateLocationMessage } from './utils/message';
 import { isRealString } from './utils/validation';
-import { Users } from './utils/users';
+import { users } from './utils/users';
 
 const publicPath = path.join(__dirname, './../public' );
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
-const users = new Users(); 
+const users = new users(); 
 
 const port = process.env.PORT || 3000;
 
@@ -27,10 +27,10 @@ io.on('connection', (socket) => {
         }
 
         socket.join(params.room);
-        users.removeUser(socket.id);
-        users.addUser(socket.id, params.name, params.room);
+        users.removeuser(socket.id);
+        users.adduser(socket.id, params.name, params.room);
 
-        io.to(params.room).emit('updateUserList', users.getUsersList(params.room));
+        io.to(params.room).emit('updateuserList', users.getusersList(params.room));
         socket.emit('newMessage',  generateMessage('Admin', 'Welcome to our chat app'));
         socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} has joined.`));
 
@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('createMessage', (message, callback) => {
-        let user = users.getUser(socket.id);
+        let user = users.getuser(socket.id);
 
         if (user && isRealString(message.text)) { 
             io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createLocationMessage', (coords) => {
-        let user = users.getUser(socket.id);
+        let user = users.getuser(socket.id);
 
         if (user) { 
             io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
@@ -56,10 +56,10 @@ io.on('connection', (socket) => {
     })
 
     socket.on('disconnect', () => {
-        let user = users.removeUser(socket.id);
+        let user = users.removeuser(socket.id);
 
         if (user) {
-            io.to(user.room).emit('updateUserList', users.getUsersList(user.room));
+            io.to(user.room).emit('updateuserList', users.getusersList(user.room));
             io.to(user.room).emit('newMessage', generateMessage('Admin', `${user.name} has left the room.`));
         }
     });
