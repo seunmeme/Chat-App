@@ -5,20 +5,20 @@ import socketIO from 'socket.io';
 
 import { generateMessage, generateLocationMessage } from './utils/message';
 import { isRealString } from './utils/validation';
-import { users } from './utils/users';
+import { Users } from './utils/users';
 
 const publicPath = path.join(__dirname, './../public' );
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
-const users = new users(); 
+const users = new Users();
 
 const port = process.env.PORT || 3000;
 
 app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
-    console.log('New user connected'); 
+    console.log('New user connected');
 
 
     socket.on('join', (params, callback) => {
